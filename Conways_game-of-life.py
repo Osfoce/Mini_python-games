@@ -9,7 +9,7 @@ DIE_COLOR = (170, 170, 170)
 ALIVE_COLOR =(255, 255,255)  
 pygame.display.set_caption("Conway's Game of life")
 
-def update(screen, cells, size, with_progress = False):
+def update(screen, cells, size, Gen = False):
     updated_cells = np.zeros((cells.shape[0], cells.shape[1]))  
 
     for row, col in np.ndindex(cells.shape):
@@ -18,17 +18,17 @@ def update(screen, cells, size, with_progress = False):
 
         if cells[row, col] == 1:
             if alive < 2 or alive > 3:
-                if with_progress:
+                if Gen:
                     color = DIE_COLOR
             elif 2 <= alive <= 3:
                 updated_cells[row, col] =1
-                if with_progress:
+                if Gen:
                     color = ALIVE_COLOR
 
         else:
             if alive == 3:
                 updated_cells[row, col] = 1
-                if with_progress:
+                if Gen:
                     color = ALIVE_COLOR
 
         pygame.draw.rect(screen, color, (col * size, row * size, size -1, size -1))
@@ -67,7 +67,7 @@ def main():
         screen.fill(GRID_COLOR)
 
         if running:
-            cells = update(screen, cells, 10, with_progress=True)
+            cells = update(screen, cells, 10, Gen=True)
             pygame.display.update()
 
         time.sleep(0.001)
